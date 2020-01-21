@@ -1,9 +1,17 @@
 package com.tourism.service.impl;
 
-import com.tourism.dao.HotelDao;
-import com.tourism.entity.Hotel;
-import com.tourism.service.HotelService;
-import com.tourism.utils.StringUtils;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.List;
+import java.util.UUID;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.commons.fileupload.FileItem;
 import org.apache.commons.fileupload.disk.DiskFileItemFactory;
 import org.apache.commons.fileupload.servlet.ServletFileUpload;
@@ -15,17 +23,10 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.domain.Specifications;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
-import java.util.List;
-import java.util.UUID;
+import com.tourism.dao.HotelDao;
+import com.tourism.entity.Hotel;
+import com.tourism.service.HotelService;
+import com.tourism.utils.StringUtils;
 
 @Service("hotelService")
 public class HotelServiceImpl implements HotelService {
@@ -56,7 +57,6 @@ public class HotelServiceImpl implements HotelService {
 
     public Specification<Hotel> getWhereClause(final String day, final String sPrice, final String ePrice, final String star) {
         return new Specification<Hotel>() {
-            @Override
             public Predicate toPredicate(Root<Hotel> r, CriteriaQuery<?> q, CriteriaBuilder cb) {
                 Predicate predicate = cb.conjunction();
                 if(StringUtils.isNotEmpty(day)){
